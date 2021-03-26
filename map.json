@@ -1,35 +1,232 @@
 [
   [
     {
-      "val": 1
+      "val": 1,
+      "type": 1,
+      "n_enemy": 0,
+      "enemies" : [],
+      "drop" : [{
+        "type" : "potion",
+        "name" : "Pozione delle Fate",
+        "heal" : 150,
+        "quantity" : 3
+      },
+      {
+        "type": "weapon-bow",
+        "name" : "Arco dei colossi",
+        "atk" : 100,
+        "crit" : 0.1,
+        "combo" : 3
+      }],
+      "boss" : false,
+      "secretboss": false
     },
     {
-      "val": 2
+      "val": 2,
+      "type": 2,
+      "n_enemy": 1,
+      "enemies" : [
+        {
+          "name" : "Orco Addormentato",
+          "atk" : 20,
+          "crit" : 0,
+          "combo" : 1
+        }
+      ],
+      "drop" : [{
+        "type" : "potion",
+        "name" : "Pozione degli Orchi",
+        "heal" : 150
+      },
+        {
+          "type": "weapon-sword",
+          "name" : "Ascia dell'Orco",
+          "atk" : 20,
+          "crit" : 0.7,
+          "combo" : 2
+        }],
+      "boss" : false,
+      "secretboss": false
     },
     {
-      "val": 3
+      "val": 3,
+      "type": 2,
+      "n_enemy": 2,
+      "enemies" : [
+        {
+          "name" : "Arpia",
+          "atk" : 10,
+          "crit" : 0.5,
+          "combo" : 2
+        },
+        {
+          "name" : "Arpia",
+          "atk" : 10,
+          "crit" : 0.5,
+          "combo" : 2
+        }
+      ],
+      "drop" :
+      [
+        {
+        "type" : "potion",
+        "name" : "Pozione delle Arpie",
+        "heal" : 10
+        },
+        {
+          "type": "weapon-bow",
+          "name" : "Scheggie delle Arpie",
+          "atk" : 20,
+          "crit" : 0.9,
+          "combo" : 10
+        }
+      ],
+      "boss" : false,
+      "secretboss": false
     }
   ],
   [
     {
-      "val": 1
+      "val": 1,
+      "type": 2,
+      "n_enemy": 1,
+      "enemies" : [
+        {
+          "name" : "Fata",
+          "atk" : 60,
+          "crit" : 0.1,
+          "combo" : 3
+        }
+      ],
+      "drop" : [{
+        "type" : "potion",
+        "name" : "Pozione delle Fate",
+        "heal" : 150
+      },
+        {
+          "type": "weapon-bow",
+          "name" : "Arco dei colossi",
+          "atk" : 100,
+          "crit" : 0.1,
+          "combo" : 3
+        }],
+      "boss" : false,
+      "secretboss": false
     },
     {
-      "val": 2
+      "val": 2,
+      "type": 3,
+      "n_enemy": 1,
+      "enemies" : [
+        {
+          "name" : "Guardiano delle segrete",
+          "atk" : 100,
+          "crit" : 0.5,
+          "combo" : 2
+        }
+      ],
+      "drop" : [{
+        "type" : "map",
+        "name" : "Mappa delle segrete"
+      },
+      {
+        "type": "weapon",
+        "name" : "Lancia del Guardiano",
+        "atk" : 250,
+        "crit" : 0,
+        "combo" : 2
+      }],
+      "boss" : false,
+      "secretboss": false
     },
     {
-      "val": 3
+      "val": 3,
+      "type": 2,
+      "n_enemy": 1,
+      "enemies" : [
+        {
+          "name" : "Leone",
+          "atk" : 40,
+          "crit" : 1,
+          "combo" : 5
+        }
+      ],
+      "drop" : [{
+        "type" : "potion",
+        "name" : "Protezione",
+        "heal" : 300
+      },
+        {
+          "type": "weapon-bow",
+          "name" : "Dente di Leone",
+          "atk" : 75,
+          "crit" : 1,
+          "combo" : 10
+        }],
+      "boss" : false,
+      "secretboss": false
     }
   ],
   [
     {
-      "val": 1
+      "val": 1,
+      "type": 2,
+      "n_enemy": 3,
+      "enemies" : [
+        {
+          "name" : "Magus attacco",
+          "atk" : 20,
+          "crit" : 0,
+          "combo" : 5
+        },
+        {
+          "name" : "Magus difesa",
+          "atk" : 50,
+          "crit" : 0,
+          "combo" : 1
+        },
+        {
+          "name" : "Magus crit",
+          "atk" : 1,
+          "crit" : 1,
+          "combo" : 5
+        }
+      ],
+      "drop" : [],
+      "boss" : false,
+      "secretboss": false
     },
     {
-      "val": 2
+      "val": 2,
+      "type": 2,
+      "n_enemy": 2,
+      "enemies" : [
+        {
+          "name" : "Mimik",
+          "atk" : 3,
+          "crit" : 0.1,
+          "combo" : 20
+        }
+      ],
+      "drop" : [],
+      "boss" : false,
+      "secretboss": false
     },
     {
-      "val": 3
+      "val": 3,
+      "type": 4,
+      "n_enemy": 1,
+      "enemies" : [
+        {
+          "name" : "Bahamut",
+          "atk" : 100,
+          "crit" : 0.1,
+          "combo" : 20
+        }
+      ],
+      "drop" : [],
+      "boss" : true,
+      "secretboss": false
     }
   ]
 ]

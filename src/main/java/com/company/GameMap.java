@@ -7,12 +7,12 @@ import org.json.simple.parser.JSONParser;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-public class Map {
+public class GameMap {
     Integer width;
     Integer height;
     ArrayList<ArrayList<JSONObject>> matrix;
 
-    public Map(String url) {
+    public GameMap(String url) {
         JSONParser parser = new JSONParser();
         try {
             Object obj = parser.parse(new FileReader("./map.json"));
@@ -32,6 +32,11 @@ public class Map {
             e.printStackTrace();
         }
     }
+
+    public MapItem generateMap(String name) {
+        return new MapItem(name, this.matrix);
+    }
+
 
     @Override
     public String toString() {

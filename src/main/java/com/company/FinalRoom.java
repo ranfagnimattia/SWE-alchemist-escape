@@ -4,7 +4,7 @@ public class FinalRoom implements Room {
     //Boss boss;
 
     @Override
-    public void roomScenario() {
-
+    public Boolean roomScenario(Player player) {
+        return false;
     }
 }

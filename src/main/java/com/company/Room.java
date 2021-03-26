@@ -1,5 +1,5 @@
 package com.company;
 
 public interface Room {
-    public void roomScenario();
+    public Boolean roomScenario(Player player);
 }

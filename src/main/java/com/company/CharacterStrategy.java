@@ -31,14 +31,6 @@ public abstract class CharacterStrategy {
         this.hp = hp;
     }
 
-    public Integer getMobility() {
-        return mobility;
-    }
-
-    public void setMobility(Integer mobility) {
-        this.mobility = mobility;
-    }
-
     public Integer getAtk() {
         return atk;
     }

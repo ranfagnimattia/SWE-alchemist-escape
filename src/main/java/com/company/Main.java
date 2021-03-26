@@ -6,9 +6,15 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) throws IOException, ParseException {
-        Map map = new Map("./map.json");
+        GameController game = new GameController("./map.json");
+        game.play();
+    }
+}
+
+        /*
+        GameMap gameMap = new GameMap();
         Player player = new Player("Giorgio");
-        System.out.println(map.toString());
+        System.out.println(gameMap.toString());
         System.out.println(player.toString());
         Item p1 = new Potion("Pozione degli orchi", 50);
         Item p2 = new Potion("Pozione delle fate", 100);
@@ -18,7 +24,8 @@ public class Main {
         megapotion.use(player);
 
         player.attack(player);
-        player.move();
         player.defend();
-    }
-}
+
+        System.out.println(megapotion.getClass());
+        System.out.println(megapotion.getClass().toString().equals("class com.company.ItemComposite"));
+        */
