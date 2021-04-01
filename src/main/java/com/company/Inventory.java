@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Inventory {
-    ArrayList<Item> items;
-    ArrayList<Weapon> weapons;
-    MapItem map;
+    private final ArrayList<Item> items;
+    private final ArrayList<Weapon> weapons;
+    private MapItem map;
 
     public Inventory() {
         items = new ArrayList<>();
@@ -22,30 +22,56 @@ public class Inventory {
         this.map = map;
     }
 
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
+    public ArrayList<Weapon> getWeapons() {
+        return weapons;
+    }
+
+    public void addItem(Item item) {
+        this.items.add(item);
+    }
+
+    public void addWeapon(Weapon weapon) {
+        this.weapons.add(weapon);
+    }
+
+    public void removeItem(int index) {
+        this.items.remove(index);
+    }
+
+    public Weapon getWeapon(int index) {
+        return this.weapons.get(index);
+    }
+
+    public Item getItem(int index) {
+        return this.items.get(index);
+    }
+
     void combineItems() {
         System.out.println("Select first item to merge:");
         for(int i=0; i<items.size();i++) {
-            System.out.println(i + ") - "+ this.items.get(i));
+            System.out.println(i + ") - "+ this.items.get(i).getName());
         }
         Scanner in = new Scanner(System.in);
         int num1;
         do {
-            num1 = in.nextInt();
-            if(num1 < items.size() && num1 > 0)
-                System.out.println("Select an item from the inventory.");
-        } while(num1 < items.size() && num1 > 0);
+            String str = in.next();
+            num1 = str.matches("-?\\d+")? Integer.parseInt(str) : -1;
+        } while(num1 >= items.size() || num1 < 0);
         System.out.println("Select second item to merge:");
         for(int i=0; i<items.size();i++) {
             if(i != num1) {
-                System.out.println(i + ") - "+ this.items.get(i));
+                System.out.println(i + ") - "+ this.items.get(i).getName());
             }
         }
         int num2;
         do {
-            num2 = in.nextInt();
-            if(num2 < items.size() && num2 > 0)
-                System.out.println("Select an item from the inventory.");
-        } while(num2 < items.size() && num2 > 0);
+            String str = in.next();
+            num2 = str.matches("-?\\d+")? Integer.parseInt(str) : -1;
+        } while(num2 >= items.size() || num2 < 0 || num2 == num1);
         ItemComposite newitem = new ItemComposite(items.get(num1).getName());
         newitem.add(items.get(num1));
         newitem.add(items.get(num2));
@@ -57,27 +83,25 @@ public class Inventory {
     void combineWeapons() {
         System.out.println("Select first weapon to merge:");
         for(int i=0; i<weapons.size();i++) {
-            System.out.println(i + ") - "+ this.weapons.get(i));
+            System.out.println(i + ") - "+ this.weapons.get(i).getName());
         }
         Scanner in = new Scanner(System.in);
         int num1;
         do {
-            num1 = in.nextInt();
-            if(num1 < weapons.size() && num1 > 0)
-                System.out.println("Select a weapon from the inventory.");
-        } while(num1 < weapons.size() && num1 > 0);
+            String str = in.next();
+            num1 = str.matches("-?\\d+")? Integer.parseInt(str) : -1;
+        } while(num1 >= weapons.size() || num1 < 0);
         System.out.println("Select second weapon to merge:");
-        for(int i=0; i<weapons.size();i++) {
+        for(int i=0; i< weapons.size();i++) {
             if(i != num1) {
-                System.out.println(i + ") - "+ this.weapons.get(i));
+                System.out.println(i + ") - "+ this.weapons.get(i).getName());
             }
         }
         int num2;
         do {
-            num2 = in.nextInt();
-            if(num2 < weapons.size() && num2 > 0)
-                System.out.println("Select an item from the inventory.");
-        } while(num2 < weapons.size() && num2 > 0);
+            String str = in.next();
+            num2 = str.matches("-?\\d+")? Integer.parseInt(str) : -1;
+        } while(num2 >= weapons.size() || num2 < 0 || num2 == num1);
         WeaponComposite newitem = new WeaponComposite(weapons.get(num1).getName());
         newitem.add(weapons.get(num1));
         newitem.add(weapons.get(num2));

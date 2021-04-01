@@ -20,13 +20,13 @@ public class WeaponComposite extends Weapon {
         else {
             this.children.add(i);
         }
-        this.updateStats();
+        //this.updateStats();
     }
     public void remove(Weapon i)  {
         this.children.remove(i);
-        this.updateStats();
+        //this.updateStats();
     }
-
+/*
     private void updateStats() {
         this.atk = 0;
         this.crit = 0f;
@@ -37,16 +37,13 @@ public class WeaponComposite extends Weapon {
             this.combo += w.getCombo();
         }
     }
-
+*/
     @Override
-    public Integer use(Character attacker, Character attacked) {
-        Integer damage = (attacker.getStrategy().getAtk() + this.atk);
-        damage -= attacked.getStrategy().getDef();
-        if(Math.random() < this.combo)
-            damage *= 2;
-        Integer hp_attacked = attacked.getStrategy().getHp();
-        hp_attacked = Math.max(hp_attacked - damage, 0);
-        attacked.getStrategy().setHp(hp_attacked);
+    public Integer use() {
+        Integer damage = 0;
+        for(Weapon w : children) {
+            damage += w.use();
+        }
         return damage;
     }
 }

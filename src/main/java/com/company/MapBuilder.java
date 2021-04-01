@@ -14,7 +14,7 @@ public class MapBuilder {
     }
 
     public Room BuildRoom(int x, int y) throws IOException, ParseException {
-        JSONObject room = this.gameMap.matrix.get(x).get(y);
+        JSONObject room = this.gameMap.matrix.get(y).get(x);
         return switch (Integer.parseInt(room.get("type").toString())) {
             case 1 -> this.BuildFirstRoom(room);
             case 2 -> this.BuildEnemyRoom(room);
@@ -28,6 +28,9 @@ public class MapBuilder {
     private DropRoom BuildDropRoom(JSONObject roominfo) {
         DropRoom room = new DropRoom();
         JSONArray drops = (JSONArray) roominfo.get("drop");
+        JSONArray enemies = (JSONArray) roominfo.get("enemies");
+        Boolean isBoss = Boolean.parseBoolean(roominfo.get("boss").toString());
+        room.setEnemies(setEnemies(enemies,isBoss));
         room.setItems(setItemDrops(drops));
         room.setWeapons(setWeaponDrops(drops));
         MapItem map = this.setMap(drops);
@@ -40,7 +43,8 @@ public class MapBuilder {
         EnemyRoom room = new EnemyRoom();
         JSONArray drops = (JSONArray) roominfo.get("drop");
         JSONArray enemies = (JSONArray) roominfo.get("enemies");
-        room.setEnemies(setEnemies(enemies));
+        Boolean isBoss = Boolean.parseBoolean(roominfo.get("boss").toString());
+        room.setEnemies(setEnemies(enemies,isBoss));
         room.setItems(setItemDrops(drops));
         room.setWeapons(setWeaponDrops(drops));
         return room;
@@ -52,7 +56,11 @@ public class MapBuilder {
     */
 
     private FinalRoom BuildBossRoom(JSONObject roominfo) {
-        return new FinalRoom();
+        FinalRoom room = new FinalRoom();
+        JSONArray enemies = (JSONArray) roominfo.get("enemies");
+        Boolean isBoss = Boolean.parseBoolean(roominfo.get("boss").toString());
+        room.setEnemies(setEnemies(enemies,isBoss));
+        return room;
     }
 
     private FirstRoom BuildFirstRoom(JSONObject roominfo) {
@@ -87,11 +95,19 @@ public class MapBuilder {
         return items;
     }
 
-    public ArrayList<Enemy> setEnemies(JSONArray enemies) {
+    public ArrayList<Enemy> setEnemies(JSONArray enemies, Boolean boss) {
         ArrayList<Enemy> foes = new ArrayList<>();
-        for(Object enemy : enemies) {
-            JSONObject obj = (JSONObject) enemy;
-            foes.add(new Enemy(obj.get("name").toString(),1,1,Integer.parseInt(obj.get("atk").toString()),1));
+        if(!boss) {
+            for(Object enemy : enemies) {
+                JSONObject obj = (JSONObject) enemy;
+                foes.add(new Enemy(obj.get("name").toString(),1,Integer.parseInt(obj.get("atk").toString()),1));
+            }
+        }
+        else {
+            for(Object enemy : enemies) {
+                JSONObject obj = (JSONObject) enemy;
+                foes.add(new Boss(obj.get("name").toString(),1,Integer.parseInt(obj.get("atk").toString()),1));
+            }
         }
         return foes;
     }

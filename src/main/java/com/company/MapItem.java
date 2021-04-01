@@ -15,7 +15,7 @@ public class MapItem extends Item {
 
     @Override
     public void use(Player p) {
-
+        System.out.println(this.mapToString(p));
     }
 
     @Override
@@ -28,14 +28,30 @@ public class MapItem extends Item {
         super.setName(name);
     }
 
-    @Override
-    public String toString() {
+    public String mapToString(Player p) {
         StringBuilder s = new StringBuilder();
-        s.append("Tiles:" + "\n");
+        s.append("Map:" + "\n");
         for(ArrayList<JSONObject> i : matrix) {
             for(JSONObject o : i) {
-                s.append(o.get("val").toString()).append("\n");
+                if(i.indexOf(o) == p.getX() && matrix.indexOf(i) == p.getY()) {
+                    s.append("| ");
+                    s.append(p.getName());
+                    s.append(" |");
+                }
+                else {
+                    s.append("| ");
+                    String str = o.get("type").toString();
+                    switch(str) {
+                        case "1" -> str = "First";
+                        case "2" -> str = "Enemy";
+                        case "3" -> str = "Guard";
+                        case "4" -> str = "Final";
+                    }
+                    s.append(str);
+                    s.append(" |");
+                }
             }
+            s.append("\n");
         }
         return s.toString();
     }

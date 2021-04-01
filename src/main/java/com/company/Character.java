@@ -27,4 +27,10 @@ public class Character {
             this.strategy.defend();
         }
     }
+
+    public void useItem() {
+        if(this.strategy != null) {
+            this.strategy.useItem();
+        }
+    }
 }

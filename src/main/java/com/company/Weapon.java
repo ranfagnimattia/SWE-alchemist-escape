@@ -45,6 +45,6 @@ public abstract class Weapon {
         this.combo = combo;
     }
 
-    abstract public Integer use(Character attacker, Character attacked);
+    abstract public Integer use();
 
 }

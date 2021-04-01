@@ -7,11 +7,6 @@ public class FirstRoom implements Room {
     ArrayList<Item> items;
     ArrayList<Weapon> weapons;
 
-    public FirstRoom(ArrayList<Item> items, ArrayList<Weapon> weapons) {
-        this.items = items;
-        this.weapons = weapons;
-    }
-
     public FirstRoom() {
     }
 
@@ -23,7 +18,6 @@ public class FirstRoom implements Room {
         this.weapons = weapons;
     }
 
-    //????
     @Override
     public Boolean roomScenario(Player player) {
         player.pickUpDrops(this.items, this.weapons,null);

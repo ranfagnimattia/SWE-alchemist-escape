@@ -17,15 +17,20 @@ public class GameController {
     }
 
     public void play() throws IOException, ParseException {
-        Player p = new Player("Gino");
 
         ArrayList<String> actions = new ArrayList<>();
         int x = 0;
         int y = 0;
+        Player p = new Player("Gino", x,y);
+
         Room room = this.mapBuilder.BuildRoom(x,y);
         boolean endGame = room.roomScenario(p);
 
-        while(!endGame) {
+        System.out.println("x: "+x+" y: "+y);
+
+        do {
+            actions.clear();
+            System.out.println("x: "+x+" y: "+y);
             System.out.println("Where do you want to go?");
             if((x+1) < this.gameMap.width) {
                 actions.add("right");
@@ -35,11 +40,11 @@ public class GameController {
                 actions.add("down");
                 System.out.println(actions.indexOf("down") + ") Go down.");
             }
-            if((x-1) < 0) {
+            if((x-1) >= 0) {
                 actions.add("left");
                 System.out.println(actions.indexOf("left") + ") Go left.");
             }
-            if((x+1) < 0) {
+            if((y-1) >= 0) {
                 actions.add("up");
                 System.out.println(actions.indexOf("up") + ") Go up.");
             }
@@ -47,7 +52,8 @@ public class GameController {
             Scanner in = new Scanner(System.in);
             int act;
             do {
-                act = in.nextInt();
+                String str = in.next();
+                act = str.matches("-?\\d+")? Integer.parseInt(str) : -1;
             } while (act < 0 || act > actions.size());
             switch (actions.get(act)) {
                 case "right" -> x += 1;
@@ -56,7 +62,9 @@ public class GameController {
                 case "down" -> y += 1;
             }
             room = this.mapBuilder.BuildRoom(x,y);
+            p.setX(x);
+            p.setY(y);
             endGame = room.roomScenario(p);
-        }
+        } while(!endGame);
     }
 }

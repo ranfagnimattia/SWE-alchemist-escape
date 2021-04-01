@@ -24,9 +24,11 @@ public class EnemyRoom implements Room{
         this.weapons = weapons;
     }
 
-    private void battle(Player player) {
+    private boolean battle(Player player) {
         Character c = new Character();
         Scanner in = new Scanner(System.in);
+        for(Enemy e : enemies)
+            player.addObserver(e);
         do {
             int act;
             c.setStrategy(player);
@@ -34,39 +36,48 @@ public class EnemyRoom implements Room{
             System.out.println("2) Defend");
             System.out.println("3) Use item");
             do {
-                act = in.nextInt();
-            } while(act < 0 || act > 4);
+                String str = in.next();
+                act = str.matches("-?\\d+")? Integer.parseInt(str) : -1;
+            } while(act < 1 || act > 4);
+            //choose enemy
+            //if enemy is dead remove from enemies
             switch (act) {
-                case 1:
-                    //choose enemy
-                    for(int i = 0; i< enemies.size(); i++) {
-                        System.out.println(i + ") "+ enemies.get(i).getName());
+                case 1 -> {
+                    for (int i = 0; i < enemies.size(); i++) {
+                        System.out.println(i + ") " + enemies.get(i).getName());
                     }
                     do {
-                        act = in.nextInt();
-                    } while(act < 0 || act > enemies.size());
+                        String str = in.next();
+                        act = str.matches("-?\\d+") ? Integer.parseInt(str) : -1;
+                    } while (act < 0 || act >= enemies.size());
                     c.attack(enemies.get(act));
-                    //if enemy is dead remove from enemies
-                    if(enemies.get(act).getHp() < 1) {
+                    if (enemies.get(act).getHp() < 1) {
                         enemies.remove(act);
                     }
-                    break;
-                case 2:
-                    c.defend();
-                case 3:
-                    break;
+                }
+                case 2 -> c.defend();
+                case 3 -> c.useItem();
             }
             for(Enemy e : enemies) {
                 c.setStrategy(e);
                 c.attack(player);
+                if(player.getHp() <= 0) {
+                    return false;
+                }
             }
         } while(!enemies.isEmpty());
+        return true;
     }
+
     @Override
     public Boolean roomScenario(Player player) {
-        this.battle(player);
-        player.pickUpDrops(this.items, this.weapons,null);
-        player.action();
-        return false;
+        if(this.battle(player)) {
+            System.out.println("All enemies defeated. Room Clear.");
+            player.pickUpDrops(this.items, this.weapons,null);
+            player.action();
+            return false;
+        }
+        System.out.println("You died. Game Over.");
+        return true;
     }
 }

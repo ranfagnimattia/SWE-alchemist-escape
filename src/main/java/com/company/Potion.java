@@ -2,7 +2,7 @@ package com.company;
 
 
 public class Potion extends Item {
-    private Integer heal;
+    private final Integer heal;
 
     public Potion(String name, Integer heal) {
         super(name);
@@ -10,15 +10,12 @@ public class Potion extends Item {
     }
 
     public Integer getHeal() {
-        return heal;
-    }
-
-    public void setHeal(Integer heal) {
-        this.heal = heal;
+        return this.heal;
     }
 
     @Override
     public void use(Player p) {
+        p.setHp(p.getHp() + this.heal);
         StringBuilder s;
         s = new StringBuilder();
         s.append("Used ").append(this.getName()).append(" on ");

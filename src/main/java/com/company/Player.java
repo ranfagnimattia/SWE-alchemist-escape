@@ -1,32 +1,139 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.Observable;
 import java.util.Scanner;
 
-public class Player extends CharacterStrategy {
-    private Inventory inventory;
-    public Player(String name) {
-        super(name,5,1,5,5);
-        inventory = new Inventory();
+public class Player extends Observable implements CharacterStrategy {
+    private final Inventory inventory;
+    public int equip;
+    private int x;
+    private int y;
+    private String name;
+    private Integer hp;
+    private final Integer atk;
+    private final Integer def;
+    private Boolean defenseState;
+
+    public Player(String name, int x, int y) {
+        this.equip = -1;
+        this.x = x;
+        this.y = y;
+        this.name = name;
+        this.hp = 5;
+        this.atk = 5;
+        this.inventory = new Inventory();
+        this.equip = -1;
+        this.def = 5;
+        this.defenseState = false;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getHp() {
+        return hp;
+    }
+
+    public void setHp(Integer hp) {
+        this.hp = hp;
+    }
+
+    /*public void setAtk(Integer atk) {
+        this.atk = atk;
+    }*/
+
+    public Integer getAtk() {
+        return equip != -1? this.inventory.getWeapon(equip).use() : this.atk;
+    }
+
+    public Boolean getDefenseState() {
+        return defenseState;
+    }
+
+    @Override
+    public Integer getDef() {
+        return def;
     }
 
     @Override
     public void attack(CharacterStrategy c) {
-        System.out.println(this.name + " attacks " + c.getName() + "!");
-        c.setHp(this.atk);
+        this.defenseState = true;
+        super.setChanged();
+        super.notifyObservers();
+
+        if(equip != -1) {
+            System.out.println(this.name + " attacks " + c.getName() + " with "+ this.inventory.getWeapon(equip).getName());
+        }
+        else {
+            System.out.println(this.name + " attacks " + c.getName() + " with bare hands.");
+        }
+        int damage = Math.max(this.atk - c.getDef(), 0);
+        System.out.println("Damage dealt: " + damage);
+        c.setHp(c.getHp() - damage);
+    }
+
+    @Override
+    public void useItem() {
+        this.defenseState = false;
+        super.setChanged();
+        super.notifyObservers();
+
+        if(this.inventory.getItems().isEmpty()) {
+            System.out.println("You have no items.");
+        }
+        else {
+            System.out.println("Select the item you want to use:");
+            for(int i=0; i<this.inventory.getItems().size();i++) {
+                System.out.println(i + ") - "+ this.inventory.getItem(i).getName());
+            }
+            Scanner in = new Scanner(System.in);
+            int it;
+            do {
+                String str = in.next();
+                it = str.matches("-?\\d+")? Integer.parseInt(str) : -1;
+            } while(it >= this.inventory.getItems().size() || it < 0);
+            this.inventory.getItem(it).use(this);
+            this.inventory.removeItem(it);
+        }
     }
 
     @Override
     public void defend() {
+        this.defenseState = true;
+        super.setChanged();
+        super.notifyObservers();
         System.out.println(this.name + " defends!");
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+
     public void addWeapon(Weapon w) {
-        this.inventory.weapons.add(w);
+        this.inventory.addWeapon(w);
     }
 
     public void addItem(Item i) {
-        this.inventory.items.add(i);
+        this.inventory.addItem(i);
     }
 
     public void addMap(MapItem m) {
@@ -46,15 +153,34 @@ public class Player extends CharacterStrategy {
         this.inventory.getMap().use(this);
     }
 
+    public void equip() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Select which weapon do you want to equip.");
+        for(int i = 0; i< inventory.getWeapons().size(); i++) {
+            System.out.println(i + ")" + this.inventory.getWeapon(i).getName());
+        }
+        int equip;
+        do {
+            String str = in.next();
+            equip = str.matches("-?\\d+")? Integer.parseInt(str) : -1;
+        } while (equip < 0 || equip >= this.inventory.getWeapons().size());
+        this.equip = equip;
+    }
+
     public void action() {
+        Scanner in = new Scanner(System.in);
         do {
             System.out.println("What do you want to do?");
             ArrayList<String> actions = new ArrayList<>();
-            if (this.inventory.weapons.size() > 1) {
+            if (!this.inventory.getWeapons().isEmpty()) {
+                actions.add("equip");
+                System.out.println(actions.indexOf("equip") + ") Equip a Weapon.");
+            }
+            if (this.inventory.getWeapons().size() > 1) {
                 actions.add("merge-weapons");
                 System.out.println(actions.indexOf("merge-weapons") + ") Combine Weapons.");
             }
-            if (this.inventory.items.size() > 1) {
+            if (this.inventory.getItems().size() > 1) {
                 actions.add("merge-items");
                 System.out.println(actions.indexOf("merge-items") + ") Combine Items.");
             }
@@ -65,24 +191,29 @@ public class Player extends CharacterStrategy {
             actions.add("navigate");
             System.out.println(actions.indexOf("navigate") + ") Change Room.");
 
-            Scanner in = new Scanner(System.in);
             int act;
             do {
-                act = in.nextInt();
-            } while (act > 0 && act < actions.size());
+                String str = in.next();
+                act = str.matches("-?\\d+")? Integer.parseInt(str) : -1;
+            } while (act < 0 || act >= actions.size());
             switch (actions.get(act)) {
+                case "equip":
+                    this.equip();
+                    break;
                 case "merge-weapons":
                     this.mergeWeapons();
+                    if(this.equip >= this.inventory.getWeapons().size()) {
+                        System.out.println("You have to equip a new weapon.");
+                        this.equip();
+                    }
                     break;
                 case "merge-items":
                     this.mergeItems();
                     break;
                 case "map":
-                    //take a look at the map
                     this.seeMap();
                     break;
                 case "navigate":
-                    //navigate
                     return;
             }
         } while(true);
@@ -100,10 +231,8 @@ public class Player extends CharacterStrategy {
             System.out.println(weapon.getName() + " added to your inventory.");
         }
         if(map != null) {
-            System.out.println("You found " + map + "!!!");
+            System.out.println("You found " + map.getName() + "!!!");
             this.addMap(map);
-            //this.addWeapon(weapon);
-            //System.out.println(weapon.getName() + " added to your inventory.");
         }
     }
     @Override
@@ -111,7 +240,6 @@ public class Player extends CharacterStrategy {
         return "Player{" +
                 "name='" + name + '\'' +
                 ", hp=" + hp +
-                ", mobility=" + mobility +
                 ", atk=" + atk +
                 ", def=" + def +
                 '}';
