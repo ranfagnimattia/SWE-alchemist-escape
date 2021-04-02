@@ -12,4 +12,14 @@ public class Sword extends Weapon {
             damage *= 3;
         return damage;
     }
+
+    @Override
+    public String toString() {
+        return "Sword{" +
+                "name='" + name + '\'' +
+                ", atk=" + atk +
+                ", crit=" + crit +
+                ", combo=" + combo +
+                '}';
+    }
 }

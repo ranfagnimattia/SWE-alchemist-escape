@@ -8,6 +8,8 @@ public class FirstRoom implements Room {
     ArrayList<Weapon> weapons;
 
     public FirstRoom() {
+        items = new ArrayList<>();
+        weapons = new ArrayList<>();
     }
 
     public void setItems(ArrayList<Item> items) {

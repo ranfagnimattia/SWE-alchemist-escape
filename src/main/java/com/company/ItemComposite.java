@@ -38,4 +38,12 @@ public class ItemComposite extends Item {
             i.use(p);
         }
     }
+
+
+    @Override
+    public String toString() {
+        return "ItemComposite{" +
+                "children=" + children +
+                '}';
+    }
 }

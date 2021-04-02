@@ -11,6 +11,10 @@ public class DropRoom implements Room {
 
 
     public DropRoom() {
+        this.enemies = new ArrayList<>();
+        this.items = new ArrayList<>();
+        this.weapons = new ArrayList<>();
+        this.map = null;
     }
 
     public void setMap(MapItem map) {
@@ -76,13 +80,19 @@ public class DropRoom implements Room {
 
     @Override
     public Boolean roomScenario(Player player) {
-        if(this.battle(player)) {
+        if(this.enemies.isEmpty()) {
+            System.out.println("Room already cleared.");
+            player.action();
+        }
+        else if(this.battle(player) ) {
             System.out.println("All enemies defeated. Room Clear.");
             player.pickUpDrops(items,weapons,map);
             player.action();
-            return false;
         }
-        System.out.println("You died. Game Over.");
-        return true;
+        else {
+            System.out.println("You died. Game Over.");
+            return true;
+        }
+        return false;
     }
 }

@@ -105,8 +105,17 @@ public class Inventory {
         WeaponComposite newitem = new WeaponComposite(weapons.get(num1).getName());
         newitem.add(weapons.get(num1));
         newitem.add(weapons.get(num2));
+        for(Weapon w : newitem.getChildren())
+            weapons.remove(w);
         weapons.add(newitem);
-        weapons.remove(num1);
-        weapons.remove(num2);
+
+    }
+
+    @Override
+    public String toString() {
+        return "Inventory{" +
+                "items=" + items.toString() +
+                ", weapons=" + weapons.toString() +
+                '}';
     }
 }

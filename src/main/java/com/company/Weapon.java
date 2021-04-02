@@ -47,4 +47,13 @@ public abstract class Weapon {
 
     abstract public Integer use();
 
+    @Override
+    public String toString() {
+        return "Weapon{" +
+                "name='" + name + '\'' +
+                ", atk=" + atk +
+                ", crit=" + crit +
+                ", combo=" + combo +
+                '}';
+    }
 }

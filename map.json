@@ -8,13 +8,13 @@
       "drop" : [{
         "type" : "potion",
         "name" : "Pozione delle Fate",
-        "heal" : 150,
+        "heal" : 50,
         "quantity" : 3
       },
       {
         "type": "weapon-bow",
         "name" : "Arco dei colossi",
-        "atk" : 100,
+        "atk" : 60,
         "crit" : 0.1,
         "combo" : 3
       }],
@@ -28,6 +28,7 @@
       "enemies" : [
         {
           "name" : "Orco Addormentato",
+          "hp" : 50,
           "atk" : 20,
           "crit" : 0,
           "combo" : 1
@@ -56,12 +57,14 @@
         {
           "name" : "Arpia",
           "atk" : 10,
+          "hp" : 30,
           "crit" : 0.5,
           "combo" : 2
         },
         {
           "name" : "Arpia",
           "atk" : 10,
+          "hp": 30,
           "crit" : 0.5,
           "combo" : 2
         }
@@ -94,6 +97,7 @@
         {
           "name" : "Fata",
           "atk" : 60,
+          "hp" : 70,
           "crit" : 0.1,
           "combo" : 3
         }
@@ -120,6 +124,7 @@
       "enemies" : [
         {
           "name" : "Guardiano delle segrete",
+          "hp": 100,
           "atk" : 100,
           "crit" : 0.5,
           "combo" : 2
@@ -146,6 +151,7 @@
       "enemies" : [
         {
           "name" : "Leone",
+          "hp" : 150,
           "atk" : 40,
           "crit" : 1,
           "combo" : 5
@@ -175,19 +181,22 @@
       "enemies" : [
         {
           "name" : "Magus attacco",
-          "atk" : 20,
+          "hp" : 50,
+          "atk" : 100,
           "crit" : 0,
           "combo" : 5
         },
         {
           "name" : "Magus difesa",
-          "atk" : 50,
+          "hp": 200,
+          "atk" : 15,
           "crit" : 0,
           "combo" : 1
         },
         {
           "name" : "Magus crit",
-          "atk" : 1,
+          "hp" : 150,
+          "atk" : 30,
           "crit" : 1,
           "combo" : 5
         }
@@ -202,8 +211,9 @@
       "n_enemy": 2,
       "enemies" : [
         {
+          "hp" : 180,
           "name" : "Mimik",
-          "atk" : 3,
+          "atk" : 10,
           "crit" : 0.1,
           "combo" : 20
         }
@@ -219,6 +229,7 @@
       "enemies" : [
         {
           "name" : "Bahamut",
+          "hp": 300,
           "atk" : 100,
           "crit" : 0.1,
           "combo" : 20

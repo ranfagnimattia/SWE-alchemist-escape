@@ -10,6 +10,9 @@ public class EnemyRoom implements Room{
 
 
     public EnemyRoom() {
+        this.enemies = new ArrayList<>();
+        this.items = new ArrayList<>();
+        this.weapons = new ArrayList<>();
     }
 
     public void setEnemies(ArrayList<Enemy> enemies) {
@@ -71,13 +74,19 @@ public class EnemyRoom implements Room{
 
     @Override
     public Boolean roomScenario(Player player) {
-        if(this.battle(player)) {
+        if(this.enemies.isEmpty()) {
+            System.out.println("Room already cleared.");
+            player.action();
+        }
+        else if(this.battle(player) ) {
             System.out.println("All enemies defeated. Room Clear.");
             player.pickUpDrops(this.items, this.weapons,null);
             player.action();
-            return false;
         }
-        System.out.println("You died. Game Over.");
-        return true;
+        else {
+            System.out.println("You died. Game Over.");
+            return true;
+        }
+        return false;
     }
 }

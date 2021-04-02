@@ -13,4 +13,14 @@ public class Bow extends Weapon{
             damage *= 2;
         return damage;
     }
+
+    @Override
+    public String toString() {
+        return "Bow{" +
+                "name='" + name + '\'' +
+                ", atk=" + atk +
+                ", crit=" + crit +
+                ", combo=" + combo +
+                '}';
+    }
 }

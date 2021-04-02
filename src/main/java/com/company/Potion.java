@@ -24,4 +24,11 @@ public class Potion extends Item {
         System.out.println(s);
     }
 
+
+    @Override
+    public String toString() {
+        return "Potion{" +
+                "heal=" + heal +
+                '}';
+    }
 }

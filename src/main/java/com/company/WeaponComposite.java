@@ -11,7 +11,7 @@ public class WeaponComposite extends Weapon {
     }
 
     public void add(Weapon i) {
-        if(i.getClass().toString().equals("class com.company.WeaponComposite")) {
+        /*if(i.getClass().toString().equals("class com.company.WeaponComposite")) {
             WeaponComposite i_comp = (WeaponComposite) i;
             for(Weapon it : i_comp.children) {
                 this.add(it);
@@ -19,25 +19,18 @@ public class WeaponComposite extends Weapon {
         }
         else {
             this.children.add(i);
-        }
-        //this.updateStats();
+        }*/
+        this.children.add(i);
     }
     public void remove(Weapon i)  {
         this.children.remove(i);
-        //this.updateStats();
     }
-/*
-    private void updateStats() {
-        this.atk = 0;
-        this.crit = 0f;
-        this.combo = 0;
-        for(Weapon w : children) {
-            this.atk += w.getAtk();
-            this.crit *= (1+ w.getCrit());
-            this.combo += w.getCombo();
-        }
+
+    public ArrayList<Weapon> getChildren() {
+        return children;
     }
-*/
+
+
     @Override
     public Integer use() {
         Integer damage = 0;
@@ -45,5 +38,12 @@ public class WeaponComposite extends Weapon {
             damage += w.use();
         }
         return damage;
+    }
+
+    @Override
+    public String toString() {
+        return "WeaponComposite{" +
+                "children=" + children.toString() +
+                '}';
     }
 }

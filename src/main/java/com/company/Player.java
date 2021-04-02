@@ -5,14 +5,14 @@ import java.util.Observable;
 import java.util.Scanner;
 
 public class Player extends Observable implements CharacterStrategy {
-    private final Inventory inventory;
+    private Inventory inventory;
     public int equip;
     private int x;
     private int y;
     private String name;
     private Integer hp;
-    private final Integer atk;
-    private final Integer def;
+    private Integer atk;
+    private Integer def;
     private Boolean defenseState;
 
     public Player(String name, int x, int y) {
@@ -44,12 +44,30 @@ public class Player extends Observable implements CharacterStrategy {
         this.hp = hp;
     }
 
-    /*public void setAtk(Integer atk) {
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
+    public void setDef(Integer def) {
+        this.def = def;
+    }
+
+    public void setAtk(Integer atk) {
         this.atk = atk;
-    }*/
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+
+
+    public int getEquip() {
+        return equip;
+    }
 
     public Integer getAtk() {
-        return equip != -1? this.inventory.getWeapon(equip).use() : this.atk;
+        return this.atk;
     }
 
     public Boolean getDefenseState() {
@@ -66,14 +84,15 @@ public class Player extends Observable implements CharacterStrategy {
         this.defenseState = true;
         super.setChanged();
         super.notifyObservers();
-
+        int damage;
         if(equip != -1) {
             System.out.println(this.name + " attacks " + c.getName() + " with "+ this.inventory.getWeapon(equip).getName());
+            damage = Math.max(this.inventory.getWeapon(equip).use() - c.getDef(), 0);
         }
         else {
             System.out.println(this.name + " attacks " + c.getName() + " with bare hands.");
+            damage = Math.max(this.atk - c.getDef(), 0);
         }
-        int damage = Math.max(this.atk - c.getDef(), 0);
         System.out.println("Damage dealt: " + damage);
         c.setHp(c.getHp() - damage);
     }
@@ -125,6 +144,10 @@ public class Player extends Observable implements CharacterStrategy {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public void setEquip(int equip) {
+        this.equip = equip;
     }
 
 
