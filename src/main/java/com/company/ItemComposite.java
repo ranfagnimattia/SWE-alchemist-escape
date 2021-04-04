@@ -11,17 +11,9 @@ public class ItemComposite extends Item {
         this.children = new ArrayList<>();
     }
 
-    //flatting of children
     public void add(Item i) {
-        if(i.getClass().toString().equals("class com.company.ItemComposite")) {
-            ItemComposite i_comp = (ItemComposite) i;
-            for(Item it : i_comp.children) {
-                this.add(it);
-            }
-        }
-        else {
+        //if(i != this)
             this.children.add(i);
-        }
     }
 
     public void remove(Item i)  {

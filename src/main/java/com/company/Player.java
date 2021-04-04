@@ -1,5 +1,6 @@
 package com.company;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Scanner;

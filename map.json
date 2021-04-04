@@ -136,7 +136,7 @@
       },
       {
         "type": "weapon-sword",
-        "name" : "\\u001B[35mGuardian Spear",
+        "name" : "Guardian Spear",
         "atk" : 250,
         "crit" : 0,
         "combo" : 2
