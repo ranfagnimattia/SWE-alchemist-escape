@@ -254,7 +254,7 @@ public class Player extends Observable implements CharacterStrategy {
             System.out.println(weapon.getName() + " added to your inventory.");
         }
         if(map != null) {
-            System.out.println("You found " + map.getName() + "!!!");
+            System.out.println("You found " + "\u001B[35m" + map.getName() + "!!! " + "\u001B[0m");
             this.addMap(map);
         }
     }

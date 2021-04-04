@@ -7,13 +7,13 @@
       "enemies" : [],
       "drop" : [{
         "type" : "potion",
-        "name" : "Pozione delle Fate",
+        "name" : "Fairy Potion",
         "heal" : 50,
         "quantity" : 3
       },
       {
         "type": "weapon-bow",
-        "name" : "Arco dei colossi",
+        "name" : "Giant Bow",
         "atk" : 60,
         "crit" : 0.1,
         "combo" : 3
@@ -27,7 +27,7 @@
       "n_enemy": 1,
       "enemies" : [
         {
-          "name" : "Orco Addormentato",
+          "name" : "Sleepy Ogre",
           "hp" : 50,
           "atk" : 20,
           "crit" : 0,
@@ -36,12 +36,12 @@
       ],
       "drop" : [{
         "type" : "potion",
-        "name" : "Pozione degli Orchi",
+        "name" : "Ogre Potion",
         "heal" : 150
       },
         {
           "type": "weapon-sword",
-          "name" : "Ascia dell'Orco",
+          "name" : "Orc Axe",
           "atk" : 20,
           "crit" : 0.7,
           "combo" : 2
@@ -55,14 +55,14 @@
       "n_enemy": 2,
       "enemies" : [
         {
-          "name" : "Arpia",
+          "name" : "Harpy",
           "atk" : 10,
           "hp" : 30,
           "crit" : 0.5,
           "combo" : 2
         },
         {
-          "name" : "Arpia",
+          "name" : "Harpy",
           "atk" : 10,
           "hp": 30,
           "crit" : 0.5,
@@ -73,12 +73,12 @@
       [
         {
         "type" : "potion",
-        "name" : "Pozione delle Arpie",
+        "name" : "Harpy Potion",
         "heal" : 10
         },
         {
           "type": "weapon-bow",
-          "name" : "Scheggie delle Arpie",
+          "name" : "Harpy Splinters",
           "atk" : 20,
           "crit" : 0.9,
           "combo" : 10
@@ -104,12 +104,12 @@
       ],
       "drop" : [{
         "type" : "potion",
-        "name" : "Pozione delle Fate",
+        "name" : "Fairy Potion",
         "heal" : 150
       },
         {
           "type": "weapon-bow",
-          "name" : "Arco dei colossi",
+          "name" : "Ancient Bow",
           "atk" : 100,
           "crit" : 0.1,
           "combo" : 3
@@ -123,7 +123,7 @@
       "n_enemy": 1,
       "enemies" : [
         {
-          "name" : "Guardiano delle segrete",
+          "name" : "Dungeon Guardian",
           "hp": 100,
           "atk" : 100,
           "crit" : 0.5,
@@ -132,11 +132,11 @@
       ],
       "drop" : [{
         "type" : "map",
-        "name" : "Mappa delle segrete"
+        "name" : "Dungeon Map"
       },
       {
-        "type": "weapon",
-        "name" : "Lancia del Guardiano",
+        "type": "weapon-sword",
+        "name" : "\\u001B[35mGuardian Spear",
         "atk" : 250,
         "crit" : 0,
         "combo" : 2
@@ -150,7 +150,7 @@
       "n_enemy": 1,
       "enemies" : [
         {
-          "name" : "Leone",
+          "name" : "Lion",
           "hp" : 150,
           "atk" : 40,
           "crit" : 1,
@@ -164,7 +164,7 @@
       },
         {
           "type": "weapon-bow",
-          "name" : "Dente di Leone",
+          "name" : "Lion Tooth",
           "atk" : 75,
           "crit" : 1,
           "combo" : 10
@@ -180,21 +180,21 @@
       "n_enemy": 3,
       "enemies" : [
         {
-          "name" : "Magus attacco",
+          "name" : "Magus ATK",
           "hp" : 50,
           "atk" : 100,
           "crit" : 0,
           "combo" : 5
         },
         {
-          "name" : "Magus difesa",
+          "name" : "Magus DEF",
           "hp": 200,
           "atk" : 15,
           "crit" : 0,
           "combo" : 1
         },
         {
-          "name" : "Magus crit",
+          "name" : "Magus CRIT",
           "hp" : 150,
           "atk" : 30,
           "crit" : 1,

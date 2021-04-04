@@ -9,6 +9,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+@SuppressWarnings("unchecked")
 public class GameController {
     //deve chiamare map builder, chiamare qualcosa che fa visitare le varie stanze
     public GameMap gameMap;
@@ -61,8 +62,8 @@ public class GameController {
     public void savePlayer(Player player) throws IOException {
         String fileName = "player.json";
         File file = new File(fileName);
-        if(!file.exists()) {
-            file.createNewFile();
+        if(file.createNewFile()) {
+            System.out.println("\033[0;31m" +"First Save." + "\033[0m");
         }
 
         FileWriter fileWriter = new FileWriter(fileName);

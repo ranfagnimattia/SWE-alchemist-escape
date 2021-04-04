@@ -56,11 +56,6 @@ public class MapBuilder {
         return room;
     }
 
-    /*
-    private void BuildSecretRoom() {
-    }
-    */
-
     private FinalRoom BuildBossRoom(JSONObject roominfo) {
         FinalRoom room = new FinalRoom();
         JSONArray enemies = (JSONArray) roominfo.get("enemies");
@@ -81,7 +76,7 @@ public class MapBuilder {
     }
 
 
-    public ArrayList<Weapon> setWeaponDrops(JSONArray drops) {
+    private ArrayList<Weapon> setWeaponDrops(JSONArray drops) {
         if(drops != null) {
             ArrayList<Weapon> weapons = new ArrayList<>();
             for(Object drop : drops) {
@@ -96,7 +91,7 @@ public class MapBuilder {
         return null;
     }
 
-    public ArrayList<Item> setItemDrops(JSONArray drops) {
+    private ArrayList<Item> setItemDrops(JSONArray drops) {
         if(drops != null) {
             ArrayList<Item> items = new ArrayList<>();
             for(Object drop : drops) {
@@ -110,7 +105,7 @@ public class MapBuilder {
         return null;
     }
 
-    public ArrayList<Enemy> setEnemies(JSONArray enemies, Boolean boss) {
+    private ArrayList<Enemy> setEnemies(JSONArray enemies, Boolean boss) {
         if(enemies != null) {
             ArrayList<Enemy> foes = new ArrayList<>();
             if(!boss) {
@@ -130,7 +125,7 @@ public class MapBuilder {
         return null;
     }
 
-    public MapItem setMap(JSONArray drops) {
+    private MapItem setMap(JSONArray drops) {
         if(drops != null) {
             for(Object drop : drops) {
                 JSONObject obj = (JSONObject) drop;

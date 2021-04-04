@@ -10,5 +10,5 @@ public interface CharacterStrategy {
     public void useItem();
 
     @Override
-    public abstract String toString();
+    public String toString();
 }

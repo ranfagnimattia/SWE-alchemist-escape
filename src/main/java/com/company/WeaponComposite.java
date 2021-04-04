@@ -11,15 +11,6 @@ public class WeaponComposite extends Weapon {
     }
 
     public void add(Weapon i) {
-        /*if(i.getClass().toString().equals("class com.company.WeaponComposite")) {
-            WeaponComposite i_comp = (WeaponComposite) i;
-            for(Weapon it : i_comp.children) {
-                this.add(it);
-            }
-        }
-        else {
-            this.children.add(i);
-        }*/
         this.children.add(i);
     }
     public void remove(Weapon i)  {
