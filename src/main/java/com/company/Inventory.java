@@ -1,8 +1,5 @@
 package com.company;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -64,23 +61,22 @@ public class Inventory {
             String str = in.next();
             num1 = str.matches("-?\\d+")? Integer.parseInt(str) : -1;
         } while(num1 >= items.size() || num1 < 0);
+        ItemComposite newitem = new ItemComposite(items.get(num1).getName());
+        newitem.add(items.get(num1));
+        items.remove(num1);
+
         System.out.println("Select second item to merge:");
         for(int i=0; i<items.size();i++) {
-            if(i != num1) {
-                System.out.println(i + ") - "+ this.items.get(i).getName());
-            }
+            System.out.println(i + ") - "+ this.items.get(i).getName());
         }
         int num2;
         do {
             String str = in.next();
             num2 = str.matches("-?\\d+")? Integer.parseInt(str) : -1;
-        } while(num2 >= items.size() || num2 < 0 || num2 == num1);
-        ItemComposite newitem = new ItemComposite(items.get(num1).getName());
-        newitem.add(items.get(num1));
+        } while(num2 >= items.size() || num2 < 0);
         newitem.add(items.get(num2));
-        items.add(newitem);
-        items.remove(num1);
         items.remove(num2);
+        items.add(newitem);
     }
 
     void combineWeapons() {
@@ -94,22 +90,22 @@ public class Inventory {
             String str = in.next();
             num1 = str.matches("-?\\d+")? Integer.parseInt(str) : -1;
         } while(num1 >= weapons.size() || num1 < 0);
+        WeaponComposite newitem = new WeaponComposite(weapons.get(num1).getName());
+        newitem.add(weapons.get(num1));
+        weapons.remove(num1);
+
+
         System.out.println("Select second weapon to merge:");
         for(int i=0; i< weapons.size();i++) {
-            if(i != num1) {
-                System.out.println(i + ") - "+ this.weapons.get(i).getName());
-            }
+            System.out.println(i + ") - "+ this.weapons.get(i).getName());
         }
         int num2;
         do {
             String str = in.next();
             num2 = str.matches("-?\\d+")? Integer.parseInt(str) : -1;
-        } while(num2 >= weapons.size() || num2 < 0 || num2 == num1);
-        WeaponComposite newitem = new WeaponComposite(weapons.get(num1).getName());
-        newitem.add(weapons.get(num1));
+        } while(num2 >= weapons.size() || num2 < 0);
         newitem.add(weapons.get(num2));
-        for(Weapon w : newitem.getChildren())
-            weapons.remove(w);
+        weapons.remove(num2);
         weapons.add(newitem);
 
     }

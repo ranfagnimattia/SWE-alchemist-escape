@@ -1,8 +1,11 @@
 package com.company;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
+//import org.json.simple.JSONArray;
+//import org.json.simple.JSONObject;
+//import org.json.simple.parser.ParseException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -13,8 +16,8 @@ public class MapBuilder {
         this.gameMap = gameMap;
     }
 
-    public Room BuildRoom(int x, int y) throws IOException, ParseException {
-        JSONObject room = this.gameMap.matrix.get(y).get(x);
+    public Room BuildRoom(int x, int y) throws IOException {
+        JSONObject room = this.gameMap.getMatrix().get(y).get(x);
         return switch (Integer.parseInt(room.get("type").toString())) {
             case 1 -> this.BuildFirstRoom(room);
             case 2 -> this.BuildEnemyRoom(room);
@@ -27,32 +30,28 @@ public class MapBuilder {
 
     private DropRoom BuildDropRoom(JSONObject roominfo) {
         DropRoom room = new DropRoom();
-        JSONArray drops = (JSONArray) roominfo.get("drop");
-        JSONArray enemies = (JSONArray) roominfo.get("enemies");
-        Boolean isBoss = Boolean.parseBoolean(roominfo.get("boss").toString());
-        if(drops != null) {
+        if(roominfo.has("drop")) {
+            JSONArray drops = roominfo.getJSONArray("drop");
             room.setItems(setItemDrops(drops));
             room.setWeapons(setWeaponDrops(drops));
             MapItem map = this.setMap(drops);
             if(map != null)
                 room.setMap(map);
         }
-        if(enemies != null)
-            room.setEnemies(setEnemies(enemies,isBoss));
+        if(roominfo.has("enemies"))
+            room.setEnemies(setEnemies(roominfo.getJSONArray("enemies"),roominfo.getBoolean("boss")));
         return room;
     }
 
     private EnemyRoom BuildEnemyRoom(JSONObject roominfo) {
         EnemyRoom room = new EnemyRoom();
-        JSONArray drops = (JSONArray) roominfo.get("drop");
-        JSONArray enemies = (JSONArray) roominfo.get("enemies");
-        Boolean isBoss = Boolean.parseBoolean(roominfo.get("boss").toString());
-        if(drops != null) {
-            room.setItems(setItemDrops(drops));
-            room.setWeapons(setWeaponDrops(drops));
+
+        if(roominfo.has("drop")) {
+            room.setItems(setItemDrops(roominfo.getJSONArray("drop")));
+            room.setWeapons(setWeaponDrops(roominfo.getJSONArray("drop")));
         }
-        if(enemies != null)
-            room.setEnemies(setEnemies(enemies,isBoss));
+        if(roominfo.has("enemies"))
+            room.setEnemies(setEnemies(roominfo.getJSONArray("enemies"),roominfo.getBoolean("boss")));
         return room;
     }
 
@@ -67,8 +66,8 @@ public class MapBuilder {
 
     private FirstRoom BuildFirstRoom(JSONObject roominfo) {
         FirstRoom room = new FirstRoom();
-        JSONArray drops = (JSONArray) roominfo.get("drop");
-        if(drops != null) {
+        if(roominfo.has("drop")) {
+            JSONArray drops = roominfo.getJSONArray("drop");
             room.setItems(setItemDrops(drops));
             room.setWeapons(setWeaponDrops(drops));
         }

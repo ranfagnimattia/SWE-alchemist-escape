@@ -1,7 +1,7 @@
 package com.company;
 
 public class Boss extends Enemy {
-    int trigger;
+    private int trigger;
 
     public Boss(String name, Integer hp, Integer atk, Integer def) {
         super(name, hp, atk, def);

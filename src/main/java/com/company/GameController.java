@@ -1,31 +1,31 @@
 package com.company;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-@SuppressWarnings("unchecked")
 public class GameController {
     //deve chiamare map builder, chiamare qualcosa che fa visitare le varie stanze
-    public GameMap gameMap;
-    public MapBuilder mapBuilder;
+    private GameMap gameMap;
+    private final MapBuilder mapBuilder;
 
     public GameController(String url) throws IOException {
         this.gameMap = new GameMap(url);
         this.mapBuilder = new MapBuilder(this.gameMap);
     }
 
-    private Player loadPlayer() throws IOException, ParseException {
+    private Player loadPlayer() throws IOException {
         String fileName = "player.json";
         File file = new File(fileName);
         if(file.exists()) {
-            JSONParser parser = new JSONParser();
-            JSONObject obj = (JSONObject) parser.parse(new FileReader(fileName));
+            JSONTokener parser = new JSONTokener(file.toURI().toURL().openStream());
+            //JSONParser parser = new JSONParser();
+            //JSONObject obj = (JSONObject) parser.parse(new FileReader(fileName));
+            JSONObject obj = new JSONObject(parser);
             Player p = new Player(obj.get("name").toString(),Integer.parseInt(obj.get("x").toString()),Integer.parseInt(obj.get("y").toString()));
             p.setHp(Integer.parseInt(obj.get("hp").toString()));
             p.setEquip(Integer.parseInt(obj.get("equip").toString()));
@@ -47,10 +47,11 @@ public class GameController {
             for(Item i : items)
                 inv.addItem(i);
 
-            JSONObject map = (JSONObject) inventory.get("map");
-            if(map != null)
-                inv.setMap(this.gameMap.generateMap(map.get("name").toString()));
-
+            System.out.println(inventory);
+            if(inventory.has("map")) {
+                JSONObject map = inventory.getJSONObject("map");
+                inv.setMap(this.gameMap.generateMap(map.getString("name")));
+            }
             p.setInventory(inv);
             return p;
         }
@@ -88,9 +89,10 @@ public class GameController {
 
         playerJSON.put("inventory",inventoryJSON);
 
-        System.out.println(playerJSON.toJSONString());
+        //System.out.println(playerJSON.toJSONString());
+        System.out.println(playerJSON.toString());
         fileWriter.write("");
-        fileWriter.write(playerJSON.toJSONString());
+        fileWriter.write(playerJSON.toString());
         fileWriter.flush();
         fileWriter.close();
 
@@ -154,7 +156,8 @@ public class GameController {
                     obj.put("crit", w.getCrit());
                 }
             }
-            weaponsJSON.add(obj);
+            //weaponsJSON.add(obj);
+            weaponsJSON.put(obj);
         }
         return weaponsJSON;
     }
@@ -176,17 +179,14 @@ public class GameController {
                     obj.put("heal", ((Potion) i).getHeal());
                 }
             }
-            itemsJSON.add(obj);
+            //itemsJSON.add(obj);
+            itemsJSON.put(obj);
         }
         return itemsJSON;
     }
 
-    public void play() throws IOException, ParseException {
-
+    public void play() throws IOException {
         ArrayList<String> actions = new ArrayList<>();
-        //int x = 0;
-        //int y = 0;
-        //Player p = new Player("Gino", x,y);
         Player p = this.loadPlayer();
         int x = p.getX();
         int y = p.getY();
@@ -194,18 +194,17 @@ public class GameController {
         boolean endGame = room.roomScenario(p);
         this.savePlayer(p);
         this.gameMap.clearRoom(x,y,"save.json");
-
         System.out.println("x: "+x+" y: "+y);
 
         do {
             actions.clear();
             System.out.println("x: "+x+" y: "+y);
             System.out.println("Where do you want to go?");
-            if((x+1) < this.gameMap.width) {
+            if((x+1) < this.gameMap.getWidth()) {
                 actions.add("right");
                 System.out.println(actions.indexOf("right") + ") Go right.");
             }
-            if((y+1) < this.gameMap.height) {
+            if((y+1) < this.gameMap.getHeight()) {
                 actions.add("down");
                 System.out.println(actions.indexOf("down") + ") Go down.");
             }

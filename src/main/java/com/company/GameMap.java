@@ -1,27 +1,27 @@
 package com.company;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.*;
 import java.util.ArrayList;
 
+
 public class GameMap {
-    Integer width;
-    Integer height;
-    ArrayList<ArrayList<JSONObject>> matrix;
+    private Integer width;
+    private Integer height;
+    private ArrayList<ArrayList<JSONObject>> matrix;
 
     public GameMap(String url) throws IOException {
         String saveFileName = createSave(url,"save");
 
-        JSONParser parser = new JSONParser();
+        JSONTokener parser = new JSONTokener(new File(saveFileName).toURI().toURL().openStream());
         try {
-            Object obj = parser.parse(new FileReader(saveFileName));
-            JSONArray array =  (JSONArray) obj;
-            matrix = new ArrayList<>(array.size());
+            JSONArray array = new JSONArray(parser);
+            matrix = new ArrayList<>(array.length());
             for (Object o : array) {
-                ArrayList<JSONObject> ar = new ArrayList<>(array.size());
+                ArrayList<JSONObject> ar = new ArrayList<>(array.length());
                 JSONArray array1 = (JSONArray) o;
                 for(Object ob : array1) {
                     ar.add((JSONObject) ob);
@@ -47,18 +47,18 @@ public class GameMap {
         for(ArrayList<JSONObject> array : this.matrix) {
             JSONArray roomArray = new JSONArray();
             for(JSONObject el : array) {
-                roomArray.add(el);
+                roomArray.put(el);
             }
-            rootArray.add(roomArray);
+            rootArray.put(roomArray);
         }
         fileWriter.write("");
-        fileWriter.write(rootArray.toJSONString());
+        fileWriter.write(rootArray.toString());
         fileWriter.flush();
         fileWriter.close();
-        System.out.println(rootArray.toJSONString());
+        System.out.println(rootArray.toString());
     }
     public static String createSave(String url,String name) throws IOException {
-        String fileName = name + ".json";
+        String fileName = "./" + name + ".json";
         File file = new File(fileName);
         if(!file.exists()) {
             try (
@@ -80,6 +80,19 @@ public class GameMap {
     public MapItem generateMap(String name) {
         return new MapItem(name, this.matrix);
     }
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public ArrayList<ArrayList<JSONObject>> getMatrix() {
+        return matrix;
+    }
+
 
     @Override
     public String toString() {

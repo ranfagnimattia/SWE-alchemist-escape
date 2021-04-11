@@ -12,8 +12,7 @@ public class ItemComposite extends Item {
     }
 
     public void add(Item i) {
-        //if(i != this)
-            this.children.add(i);
+        this.children.add(i);
     }
 
     public void remove(Item i)  {

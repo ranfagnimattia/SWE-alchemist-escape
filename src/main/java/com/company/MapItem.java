@@ -1,6 +1,6 @@
 package com.company;
 
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -28,7 +28,7 @@ public class MapItem extends Item {
         super.setName(name);
     }
 
-    public String mapToString(Player p) {
+    private String mapToString(Player p) {
         StringBuilder s = new StringBuilder();
         s.append("Map:" + "\n");
         for(ArrayList<JSONObject> i : matrix) {
