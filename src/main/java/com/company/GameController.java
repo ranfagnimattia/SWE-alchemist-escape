@@ -12,6 +12,7 @@ public class GameController {
     //deve chiamare map builder, chiamare qualcosa che fa visitare le varie stanze
     private GameMap gameMap;
     private final MapBuilder mapBuilder;
+    private GameController instance;
 
     public GameController(String url) throws IOException {
         this.gameMap = new GameMap(url);
@@ -60,7 +61,7 @@ public class GameController {
         }
     }
 
-    public void savePlayer(Player player) throws IOException {
+    private void savePlayer(Player player) throws IOException {
         String fileName = "player.json";
         File file = new File(fileName);
         if(file.createNewFile()) {
@@ -191,11 +192,14 @@ public class GameController {
         int x = p.getX();
         int y = p.getY();
         Room room = this.mapBuilder.BuildRoom(x,y);
+        System.out.println("Welcome to Alchemist Escape!");
+        System.out.println("This is a turn based RPG where you are a little alchemist.");
+        System.out.println("Your goal is to escape from the dungeon you are in.");
+        System.out.println("You'll escape if you find the Final room and beat the boss in that room.");
         boolean endGame = room.roomScenario(p);
         this.savePlayer(p);
         this.gameMap.clearRoom(x,y,"save.json");
         System.out.println("x: "+x+" y: "+y);
-
         do {
             actions.clear();
             System.out.println("x: "+x+" y: "+y);

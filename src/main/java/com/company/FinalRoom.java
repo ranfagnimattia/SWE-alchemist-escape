@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FinalRoom implements Room {
-    //Boss boss;
     ArrayList<Enemy> enemies;
 
     public FinalRoom() {
@@ -74,6 +73,7 @@ public class FinalRoom implements Room {
             player.action();
         }
         else {
+            System.out.println("Boss is standing in front of the exit.");
             if(this.battle(player)) {
                 System.out.println("You made it! You escaped!!!");
                 return true;

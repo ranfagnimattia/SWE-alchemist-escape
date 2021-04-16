@@ -84,14 +84,17 @@ public class DropRoom implements Room {
             System.out.println("Room already cleared.");
             player.action();
         }
-        else if(this.battle(player) ) {
-            System.out.println("All enemies defeated. Room Clear.");
-            player.pickUpDrops(items,weapons,map);
-            player.action();
-        }
         else {
-            System.out.println("You died. Game Over.");
-            return true;
+            System.out.println("Dungeon Guardian appears and attacks you, watch out!");
+            if(this.battle(player)) {
+                System.out.println("All enemies defeated. Room Clear.");
+                player.pickUpDrops(this.items, this.weapons, this.map);
+                player.action();
+            }
+            else {
+                System.out.println("You died. Game Over.");
+                return true;
+            }
         }
         return false;
     }

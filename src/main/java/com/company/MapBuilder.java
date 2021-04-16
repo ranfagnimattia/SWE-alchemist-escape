@@ -1,8 +1,5 @@
 package com.company;
 
-//import org.json.simple.JSONArray;
-//import org.json.simple.JSONObject;
-//import org.json.simple.parser.ParseException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -25,7 +22,6 @@ public class MapBuilder {
             case 4 -> this.BuildBossRoom(room);
             default -> null;
         };
-
     }
 
     private DropRoom BuildDropRoom(JSONObject roominfo) {

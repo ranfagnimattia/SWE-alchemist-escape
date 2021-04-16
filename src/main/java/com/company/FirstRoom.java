@@ -1,7 +1,6 @@
 package com.company;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class FirstRoom implements Room {
     ArrayList<Item> items;
@@ -22,6 +21,7 @@ public class FirstRoom implements Room {
 
     @Override
     public Boolean roomScenario(Player player) {
+        System.out.println("First Room. There are no enemies in this room.");
         player.pickUpDrops(this.items, this.weapons,null);
         player.action();
         return false;

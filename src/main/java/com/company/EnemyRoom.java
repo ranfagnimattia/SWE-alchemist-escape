@@ -78,14 +78,17 @@ public class EnemyRoom implements Room{
             System.out.println("Room already cleared.");
             player.action();
         }
-        else if(this.battle(player) ) {
-            System.out.println("All enemies defeated. Room Clear.");
-            player.pickUpDrops(this.items, this.weapons,null);
-            player.action();
-        }
         else {
-            System.out.println("You died. Game Over.");
-            return true;
+            System.out.println("Enemies appear! You'll have to fight them!");
+            if(this.battle(player)) {
+                System.out.println("All enemies defeated. Room Clear.");
+                player.pickUpDrops(this.items, this.weapons,null);
+                player.action();
+            }
+            else {
+                System.out.println("You died. Game Over.");
+                return true;
+            }
         }
         return false;
     }

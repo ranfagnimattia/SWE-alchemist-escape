@@ -1,15 +1,4 @@
 package com.company;
-
-import com.google.gson.Gson;
-
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.reflect.TypeToken;
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Moshi;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-//import org.json.simple.parser.ParseException;
 import org.junit.*;
 
 import static org.junit.Assert.assertEquals;
@@ -17,15 +6,12 @@ import static org.junit.contrib.java.lang.system.TextFromStandardInputStream.*;
 import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
-
 
 public class Tester {
     @Rule
     public final TextFromStandardInputStream systemInMock = emptyStandardInputStream();
-
     //expected to have stackOverflowError
     //ItemComposite instance calls himself and calling use() method it calls himself recursively
     //solution to what happened in this test
@@ -76,7 +62,6 @@ public class Tester {
 
     }
 
-
     //last call of useItem gives argument with out of bounds indices, code doesn't consider them
     //and keep asking for a new valid input.
     @Test
@@ -118,9 +103,9 @@ public class Tester {
         assertEquals("Player should be dead.", 0, (int) player.getHp());
         assertEquals("Enemy should be dead.", 0, (int) enemy.getHp());
     }
-/*
+
     @Test(expected = NoSuchElementException.class)
-    public void testBuilderAndRoomClear() throws IOException, ParseException {
+    public void testBuilderAndRoomClear() throws IOException {
         Player player = new Player("PlayerDummy",0,0);
         Inventory inventory = new Inventory();
         inventory.addWeapon(new Bow("BowTest",1000,1f,10));
@@ -128,14 +113,14 @@ public class Tester {
         player.setEquip(0);
         GameMap g = new GameMap("map.json");
         MapBuilder mapBuilder = new MapBuilder(g);
-        Room room = mapBuilder.BuildRoom(1,1);
+        Room room = mapBuilder.BuildRoom(1,0);
 
         systemInMock.provideLines("1", "0");
         room.roomScenario(player);
     }
 
     @Test
-    public void testBuilderAndGameOver() throws IOException, ParseException {
+    public void testBuilderAndGameOver() throws IOException {
         Player player = new Player("PlayerDummy",0,0);
         GameMap g = new GameMap("map.json");
         MapBuilder mapBuilder = new MapBuilder(g);
@@ -146,51 +131,9 @@ public class Tester {
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
-    public void testBuilderOutOfBounds() throws IOException, ParseException {
+    public void testBuilderOutOfBounds() throws IOException {
         GameMap g = new GameMap("map.json");
         MapBuilder mapBuilder = new MapBuilder(g);
         mapBuilder.BuildRoom(3,5);
     }
-
-    @Test
-    public void provaGson() {
-        Gson g = new GsonBuilder().create();
-        Player player = new Player("PlayerDummy",0,0);
-        Inventory inventory = new Inventory();
-        inventory.addWeapon(new Bow("BowTest",1000,1f,10));
-        player.setInventory(inventory);
-        player.setEquip(0);
-        System.out.println(g.toJson(player));
-        String json = g.toJson(player);
-
-        JSONTokener tokener = new JSONTokener(json);
-        JSONObject root = new JSONObject(tokener);
-        System.out.println(root.toString());
-
-    }
-
-    @Test
-    public void provaMoshi() {
-        Player player = new Player("PlayerDummy",0,0);
-        Inventory inventory = new Inventory();
-        inventory.addWeapon(new Bow("BowTest",1000,1f,10));
-        player.setInventory(inventory);
-        player.setEquip(0);
-
-        Moshi moshi = new Moshi.Builder().build();
-        //JsonAdapter<Player> jsonAdapter = moshi.adapter(Player.class);
-
-        ArrayListMoshiAdapter<String> arrayListMoshiAdapter = new ArrayListMoshiAdapter<>();
-        arrayListMoshiAdapter.add("ciao");
-        arrayListMoshiAdapter.add("we");
-        JsonAdapter<ArrayListMoshiAdapter<String>> jsonAdapter = moshi.adapter(new TypeToken<ArrayListMoshiAdapter<String>>(){}.getType());
-        System.out.println(jsonAdapter.toJson(arrayListMoshiAdapter));
-
-    }
-
-    @Test
-    public void provaJSONORG() {
-    }
-    */
-
 }
