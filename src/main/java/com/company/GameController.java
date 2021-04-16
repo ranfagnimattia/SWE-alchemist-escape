@@ -8,15 +8,21 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class GameController {
-    //deve chiamare map builder, chiamare qualcosa che fa visitare le varie stanze
-    private GameMap gameMap;
-    private final MapBuilder mapBuilder;
-    private GameController instance;
+public final class GameController {
+    private static GameController instance;
 
-    public GameController(String url) throws IOException {
-        this.gameMap = new GameMap(url);
-        this.mapBuilder = new MapBuilder(this.gameMap);
+    private static GameMap gameMap;
+    private static RoomFactory roomFactory;
+
+    public static GameController getInstance() throws IOException {
+        if(instance == null)
+            instance = new GameController();
+        return instance;
+    }
+
+    private GameController() throws IOException {
+        gameMap = GameMap.getInstance();
+        roomFactory = RoomFactory.getInstance();
     }
 
     private Player loadPlayer() throws IOException {
@@ -24,8 +30,6 @@ public class GameController {
         File file = new File(fileName);
         if(file.exists()) {
             JSONTokener parser = new JSONTokener(file.toURI().toURL().openStream());
-            //JSONParser parser = new JSONParser();
-            //JSONObject obj = (JSONObject) parser.parse(new FileReader(fileName));
             JSONObject obj = new JSONObject(parser);
             Player p = new Player(obj.get("name").toString(),Integer.parseInt(obj.get("x").toString()),Integer.parseInt(obj.get("y").toString()));
             p.setHp(Integer.parseInt(obj.get("hp").toString()));
@@ -48,16 +52,17 @@ public class GameController {
             for(Item i : items)
                 inv.addItem(i);
 
-            System.out.println(inventory);
             if(inventory.has("map")) {
                 JSONObject map = inventory.getJSONObject("map");
-                inv.setMap(this.gameMap.generateMap(map.getString("name")));
+                inv.setMap(gameMap.generateMap(map.getString("name")));
             }
             p.setInventory(inv);
             return p;
         }
         else {
-            return new Player("Gino",0,0);
+            System.out.println("Insert your character name:");
+            Scanner in = new Scanner(System.in);
+            return new Player(in.next(),0,0);
         }
     }
 
@@ -90,8 +95,6 @@ public class GameController {
 
         playerJSON.put("inventory",inventoryJSON);
 
-        //System.out.println(playerJSON.toJSONString());
-        System.out.println(playerJSON.toString());
         fileWriter.write("");
         fileWriter.write(playerJSON.toString());
         fileWriter.flush();
@@ -180,7 +183,6 @@ public class GameController {
                     obj.put("heal", ((Potion) i).getHeal());
                 }
             }
-            //itemsJSON.add(obj);
             itemsJSON.put(obj);
         }
         return itemsJSON;
@@ -191,24 +193,24 @@ public class GameController {
         Player p = this.loadPlayer();
         int x = p.getX();
         int y = p.getY();
-        Room room = this.mapBuilder.BuildRoom(x,y);
+        Room room = roomFactory.BuildRoom(x,y);
         System.out.println("Welcome to Alchemist Escape!");
         System.out.println("This is a turn based RPG where you are a little alchemist.");
         System.out.println("Your goal is to escape from the dungeon you are in.");
         System.out.println("You'll escape if you find the Final room and beat the boss in that room.");
+        System.out.println("x: "+x + ", y: "+y);
         boolean endGame = room.roomScenario(p);
         this.savePlayer(p);
-        this.gameMap.clearRoom(x,y,"save.json");
-        System.out.println("x: "+x+" y: "+y);
+        gameMap.clearRoom(x,y,"save.json");
         do {
             actions.clear();
-            System.out.println("x: "+x+" y: "+y);
+            System.out.println("x: "+x+", y: "+y);
             System.out.println("Where do you want to go?");
-            if((x+1) < this.gameMap.getWidth()) {
+            if((x+1) < gameMap.getWidth()) {
                 actions.add("right");
                 System.out.println(actions.indexOf("right") + ") Go right.");
             }
-            if((y+1) < this.gameMap.getHeight()) {
+            if((y+1) < gameMap.getHeight()) {
                 actions.add("down");
                 System.out.println(actions.indexOf("down") + ") Go down.");
             }
@@ -233,13 +235,13 @@ public class GameController {
                 case "up" -> y -= 1;
                 case "down" -> y += 1;
             }
-            room = this.mapBuilder.BuildRoom(x,y);
+            room = roomFactory.BuildRoom(x,y);
             p.setX(x);
             p.setY(y);
             endGame = room.roomScenario(p);
             if(!endGame && !room.getClass().toString().equals("class com.company.FinalRoom")) {
                 this.savePlayer(p);
-                this.gameMap.clearRoom(x,y,"save.json");
+                gameMap.clearRoom(x,y,"save.json");
             }
         } while(!endGame);
     }

@@ -1,14 +1,14 @@
 package com.company;
 
 public interface CharacterStrategy {
-    public String getName();
-    public Integer getHp();
-    public Integer getDef();
-    public void setHp(Integer hp);
-    public void attack(CharacterStrategy c);
-    public void defend();
-    public void useItem();
+    String getName();
+    Integer getHp();
+    Integer getDef();
+    void setHp(Integer hp);
+    void attack(CharacterStrategy c);
+    void defend();
+    void useItem();
 
     @Override
-    public String toString();
+    String toString();
 }

@@ -8,12 +8,21 @@ import java.io.*;
 import java.util.ArrayList;
 
 
-public class GameMap {
-    private Integer width;
-    private Integer height;
-    private ArrayList<ArrayList<JSONObject>> matrix;
+public final class GameMap {
+    private static GameMap instance;
 
-    public GameMap(String url) throws IOException {
+    private static Integer width;
+    private static Integer height;
+    private static ArrayList<ArrayList<JSONObject>> matrix;
+
+    public static GameMap getInstance() throws IOException {
+        if(instance == null)
+            instance = new GameMap("map.json");
+        return instance;
+
+    }
+
+    private GameMap(String url) throws IOException {
         String saveFileName = createSave(url,"save");
 
         JSONTokener parser = new JSONTokener(new File(saveFileName).toURI().toURL().openStream());
@@ -36,15 +45,15 @@ public class GameMap {
     }
 
     public void clearRoom(int x,int y, String saveFileName) throws IOException {
-        this.matrix.get(y).get(x).remove("drop");
-        this.matrix.get(y).get(x).remove("enemies");
+        matrix.get(y).get(x).remove("drop");
+        matrix.get(y).get(x).remove("enemies");
         this.save(saveFileName);
     }
 
     public void save(String fileName) throws IOException {
         FileWriter fileWriter = new FileWriter(fileName);
         JSONArray rootArray = new JSONArray();
-        for(ArrayList<JSONObject> array : this.matrix) {
+        for(ArrayList<JSONObject> array : matrix) {
             JSONArray roomArray = new JSONArray();
             for(JSONObject el : array) {
                 roomArray.put(el);
@@ -55,7 +64,6 @@ public class GameMap {
         fileWriter.write(rootArray.toString());
         fileWriter.flush();
         fileWriter.close();
-        System.out.println(rootArray.toString());
     }
     public static String createSave(String url,String name) throws IOException {
         String fileName = "./" + name + ".json";
@@ -78,7 +86,7 @@ public class GameMap {
     }
 
     public MapItem generateMap(String name) {
-        return new MapItem(name, this.matrix);
+        return new MapItem(name, matrix);
     }
 
     public Integer getWidth() {

@@ -3,7 +3,6 @@ package com.company;
 import java.io.IOException;
 public class Main {
     public static void main(String[] args) throws IOException {
-        GameController game = new GameController("./map.json");
-        game.play();
+        GameController.getInstance().play();
     }
 }

@@ -105,35 +105,30 @@ public class Tester {
     }
 
     @Test(expected = NoSuchElementException.class)
-    public void testBuilderAndRoomClear() throws IOException {
+    public void testFactoryAndRoomClear() throws IOException {
         Player player = new Player("PlayerDummy",0,0);
         Inventory inventory = new Inventory();
         inventory.addWeapon(new Bow("BowTest",1000,1f,10));
         player.setInventory(inventory);
         player.setEquip(0);
-        GameMap g = new GameMap("map.json");
-        MapBuilder mapBuilder = new MapBuilder(g);
-        Room room = mapBuilder.BuildRoom(1,0);
+
+        Room room = RoomFactory.getInstance().BuildRoom(1,0);
 
         systemInMock.provideLines("1", "0");
         room.roomScenario(player);
     }
 
     @Test
-    public void testBuilderAndGameOver() throws IOException {
+    public void testFactoryAndGameOver() throws IOException {
         Player player = new Player("PlayerDummy",0,0);
-        GameMap g = new GameMap("map.json");
-        MapBuilder mapBuilder = new MapBuilder(g);
-        Room room = mapBuilder.BuildRoom(1,1);
+        Room room = RoomFactory.getInstance().BuildRoom(1,1);
 
         systemInMock.provideLines("1", "0");
         room.roomScenario(player);
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
-    public void testBuilderOutOfBounds() throws IOException {
-        GameMap g = new GameMap("map.json");
-        MapBuilder mapBuilder = new MapBuilder(g);
-        mapBuilder.BuildRoom(3,5);
+    public void testFactoryOutOfBounds() throws IOException {
+        RoomFactory.getInstance().BuildRoom(3,5);
     }
 }

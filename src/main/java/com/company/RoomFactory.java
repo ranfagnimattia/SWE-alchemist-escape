@@ -6,15 +6,24 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MapBuilder {
+public final class RoomFactory {
     //deve costruire le stanze via via
-    private final GameMap gameMap;
-    public MapBuilder(GameMap gameMap) throws IOException {
-        this.gameMap = gameMap;
+    private static RoomFactory instance;
+    private static GameMap gameMap;
+
+    public static RoomFactory getInstance() throws IOException {
+        if(instance == null)
+            instance = new RoomFactory();
+        return instance;
     }
 
-    public Room BuildRoom(int x, int y) throws IOException {
-        JSONObject room = this.gameMap.getMatrix().get(y).get(x);
+    private RoomFactory() throws IOException {
+        gameMap = GameMap.getInstance();
+    }
+
+
+    public Room BuildRoom(int x, int y) {
+        JSONObject room = gameMap.getMatrix().get(y).get(x);
         return switch (Integer.parseInt(room.get("type").toString())) {
             case 1 -> this.BuildFirstRoom(room);
             case 2 -> this.BuildEnemyRoom(room);
@@ -125,7 +134,7 @@ public class MapBuilder {
             for(Object drop : drops) {
                 JSONObject obj = (JSONObject) drop;
                 if (obj.get("type").toString().equals("map")) {
-                    return this.gameMap.generateMap(obj.get("name").toString());
+                    return gameMap.generateMap(obj.get("name").toString());
                 }
             }
         }
