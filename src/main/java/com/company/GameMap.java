@@ -85,10 +85,6 @@ public final class GameMap {
         return fileName;
     }
 
-    public MapItem generateMap(String name) {
-        return new MapItem(name, matrix);
-    }
-
     public Integer getWidth() {
         return width;
     }
@@ -97,10 +93,10 @@ public final class GameMap {
         return height;
     }
 
-    public ArrayList<ArrayList<JSONObject>> getMatrix() {
-        return matrix;
+    public JSONObject getMatrix(int x, int y) {
+        //defensive copy
+        return new JSONObject(matrix.get(y).get(x).toString());
     }
-
 
     @Override
     public String toString() {
@@ -115,3 +111,30 @@ public final class GameMap {
         return s.toString();
     }
 }
+
+//cancelled
+    /*
+    //but there's still a problem. since jsonobject is still an object from java.org, its accessible and editable
+    //so, since GameMap is a singleton, MapItem will call getMatrix method on MaptoString method
+    //which will make a defensive copy of the object.
+    public MapItem generateMap(String name) {
+        //gives a reference of matrix so that
+        //MapItem object can track whether a room is clear and show it with an X
+        //but there's a problem. Since we are not making a deep copy to track rooms,
+        //MapItem has a reference of an arrayList object that should be read only.
+        //but MapItem could edit it if
+        //return new MapItem(name, Collections.unmodifiableList(matrix));
+        //best practice could be to wrap it in an unmodifiable List so that
+        //if MapItem tries to do an edit operations, UnsupportedOperationException is thrown
+        //we need to do this recursively
+
+        List<List<JSONObject>> temp = new ArrayList<>();
+        for (ArrayList<JSONObject> list : matrix) {
+            List<JSONObject> l = new ArrayList<>();
+            for(JSONObject o : list) {
+                l.add(new JSONObject(o.toString()));
+            }
+            temp.add(Collections.unmodifiableList(l));
+        }
+        return new MapItem(name, Collections.unmodifiableList(temp));
+    }*/

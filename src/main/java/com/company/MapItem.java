@@ -2,15 +2,11 @@ package com.company;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 public class MapItem extends Item {
-    ArrayList<ArrayList<JSONObject>> matrix;
 
 
-    public MapItem(String name, ArrayList<ArrayList<JSONObject>> matrix) {
+    public MapItem(String name) {
         super(name);
-        this.matrix = matrix;
     }
 
     @Override
@@ -29,17 +25,50 @@ public class MapItem extends Item {
     }
 
     private String mapToString(Player p) {
-        StringBuilder s = new StringBuilder();
-        s.append("Map:" + "\n");
-        for(ArrayList<JSONObject> i : matrix) {
-            for(JSONObject o : i) {
-                if(i.indexOf(o) == p.getX() && matrix.indexOf(i) == p.getY()) {
+        try {
+            StringBuilder s = new StringBuilder();
+            s.append("Map:" + "\n");
+            for(int j = 0; j < GameMap.getInstance().getHeight() ; j++) {
+                for(int i = 0; i < GameMap.getInstance().getWidth(); i++) {
+                    JSONObject obj = GameMap.getInstance().getMatrix(i,j);
                     s.append("| ");
-                    s.append(p.getName());
+                    if(i == p.getX() && j == p.getY()) {
+                        s.append(p.getName());
+                    }
+                    else {
+                        String str = obj.get("type").toString();
+                        switch(str) {
+                            case "1" -> str = "First";
+                            case "2" -> str = "Enemy";
+                            case "3" -> str = "Guard";
+                            case "4" -> str = "Final";
+                        }
+                        s.append(str);
+                    }
+                    if(!obj.has("drop") && !obj.has("enemies")) {
+                        s.append(" X");
+                    }
                     s.append(" |");
                 }
+                s.append("\n");
+            }
+            return s.toString();
+        }
+        catch (Exception e) {
+            return e.toString();
+        }
+    }
+}
+
+
+/*
+        for(List<JSONObject> i : matrix) {
+            for(JSONObject o : i) {
+                s.append("| ");
+                if(i.indexOf(o) == p.getX() && matrix.indexOf(i) == p.getY()) {
+                    s.append(p.getName());
+                }
                 else {
-                    s.append("| ");
                     String str = o.get("type").toString();
                     switch(str) {
                         case "1" -> str = "First";
@@ -48,11 +77,12 @@ public class MapItem extends Item {
                         case "4" -> str = "Final";
                     }
                     s.append(str);
-                    s.append(" |");
                 }
+                if(!o.has("drop") && !o.has("enemies")) {
+                    s.append(" X");
+                }
+                s.append(" |");
             }
             s.append("\n");
         }
-        return s.toString();
-    }
-}
+        return s.toString(); */

@@ -23,7 +23,7 @@ public final class RoomFactory {
 
 
     public Room BuildRoom(int x, int y) {
-        JSONObject room = gameMap.getMatrix().get(y).get(x);
+        JSONObject room = gameMap.getMatrix(x,y);
         return switch (Integer.parseInt(room.get("type").toString())) {
             case 1 -> this.BuildFirstRoom(room);
             case 2 -> this.BuildEnemyRoom(room);
@@ -134,7 +134,7 @@ public final class RoomFactory {
             for(Object drop : drops) {
                 JSONObject obj = (JSONObject) drop;
                 if (obj.get("type").toString().equals("map")) {
-                    return gameMap.generateMap(obj.get("name").toString());
+                    return new MapItem(obj.get("name").toString());
                 }
             }
         }

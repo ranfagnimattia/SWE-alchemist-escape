@@ -6,6 +6,7 @@ import org.json.JSONTokener;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Scanner;
 
 public final class GameController {
@@ -54,7 +55,7 @@ public final class GameController {
 
             if(inventory.has("map")) {
                 JSONObject map = inventory.getJSONObject("map");
-                inv.setMap(gameMap.generateMap(map.getString("name")));
+                inv.setMap(new MapItem(map.getString("name")));
             }
             p.setInventory(inv);
             return p;
