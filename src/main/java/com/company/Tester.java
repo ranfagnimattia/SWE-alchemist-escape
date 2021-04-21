@@ -1,7 +1,9 @@
 package com.company;
+import org.json.JSONObject;
 import org.junit.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.contrib.java.lang.system.TextFromStandardInputStream.*;
 import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 
@@ -112,7 +114,7 @@ public class Tester {
         player.setInventory(inventory);
         player.setEquip(0);
 
-        Room room = RoomFactory.getInstance().BuildRoom(1,0);
+        Room room = RoomFactory.getInstance().BuildRoom(2,2);
 
         systemInMock.provideLines("1", "0");
         room.roomScenario(player);
@@ -130,5 +132,14 @@ public class Tester {
     @Test(expected = IndexOutOfBoundsException.class)
     public void testFactoryOutOfBounds() throws IOException {
         RoomFactory.getInstance().BuildRoom(3,5);
+    }
+
+    @Test
+    public void testSingletonAndDefensiveCopy() throws IOException {
+        JSONObject j = GameMap.getInstance().getMatrix(1,1);
+        j.put("_test", -1);
+        System.out.println(j);
+        System.out.println(GameMap.getInstance().getMatrix(1,1));
+        assertFalse(j.toString().equals(GameMap.getInstance().getMatrix(1,1)));
     }
 }

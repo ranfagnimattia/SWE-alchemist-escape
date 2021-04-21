@@ -65,7 +65,7 @@ public final class GameMap {
         fileWriter.flush();
         fileWriter.close();
     }
-    public static String createSave(String url,String name) throws IOException {
+    public String createSave(String url,String name) throws IOException {
         String fileName = "./" + name + ".json";
         File file = new File(fileName);
         if(!file.exists()) {
